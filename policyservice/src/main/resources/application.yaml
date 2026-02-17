@@ -14,7 +14,7 @@ spring:
 
     # mongo
     mongodb:
-      uri: mongodb+srv://d_mongo_kit:TempPwd@dmongokit.ailxasx.mongodb.net/d_Mongo_Kit
+      uri: mongodb+srv://d_mongo_kit:TempPwd@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystem
 
 ---
 # qa
@@ -24,7 +24,7 @@ spring:
 
     # mongo
     mongodb:
-      uri: mongodb+srv://d_mongo_kit:TempPwd@dmongokit.ailxasx.mongodb.net/d_Mongo_Kit
+      uri: mongodb+srv://d_mongo_kit:TempPwd@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystem
 
 ---
 # prod
@@ -33,5 +33,5 @@ spring:
         active: prod
 
     mongodb:
-        uri: mongodb+srv://d_mongo_kit:TempPwd@dmongokit.ailxasx.mongodb.net/d_Mongo_Kit
+      uri: mongodb+srv://d_mongo_kit:TempPwd@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystem
 

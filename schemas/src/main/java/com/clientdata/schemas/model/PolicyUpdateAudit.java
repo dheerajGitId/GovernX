@@ -5,6 +5,7 @@ import com.clientdata.schemas.enums.Users;
 import lombok.Data;
 
 import java.security.Timestamp;
+import java.util.Date;
 
 
 @Data
@@ -16,5 +17,5 @@ public class PolicyUpdateAudit {
     private PolicyStatus oldStatus;
     private PolicyStatus newStatus;
     private String comments;
-    private Timestamp updatedDateTime;
+    private Date updatedDateTime;
 }

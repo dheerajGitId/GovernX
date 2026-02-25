@@ -1,12 +1,15 @@
-package com.clientdata.schemas.repo;
+package com.clientdata.schemas.model;
 
-import com.clientdata.schemas.enums.*;
-import com.clientdata.schemas.model.PolicyUpdateAudit;
+import com.clientdata.schemas.enums.Category;
+import com.clientdata.schemas.enums.PolicyName;
+import com.clientdata.schemas.enums.PolicyStatus;
+import com.clientdata.schemas.enums.RegulatoryBody;
+import com.clientdata.schemas.enums.Users;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Document(collection = "PolicyDocument")
@@ -18,7 +21,7 @@ public class PolicyDocument {
     private Category category;
     private String version;
     private PolicyStatus status;
-    private Timestamp uploadDateTime;
+    private LocalDateTime uploadDateTime;
     private Users uploadedBy;
 
     private PolicyUpdateAudit auditTrail;

@@ -11,11 +11,9 @@ spring:
         activate:
           on-profile: dev
 
-
-
   # mongo
     mongodb:
-      uri: mongodb+srv://d_mongo_kit:TempPwd@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystemDev
+      uri: mongodb+srv://d_mongo_kit:${Mongo_Pwd}@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystem
 
 ---
 # qa
@@ -26,7 +24,7 @@ spring:
 
     # mongo
     mongodb:
-      uri: mongodb+srv://d_mongo_kit:TempPwd@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystemQA
+      uri: mongodb+srv://d_mongo_kit:${Mongo_Pwd}@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystemQA
 
 ---
 # prod
@@ -36,5 +34,5 @@ spring:
           on-profile: prod
 
     mongodb:
-      uri: mongodb+srv://d_mongo_kit:TempPwd@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystemProd
+      uri: mongodb+srv://d_mongo_kit:${Mongo_Pwd}@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystemProd
 

@@ -1,3 +1,4 @@
 rootProject.name = 'GovernX'
 include 'policyservice'
 include 'schemas'
+include 'enrichmentservice'

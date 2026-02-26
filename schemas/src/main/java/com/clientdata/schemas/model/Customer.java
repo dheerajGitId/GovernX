@@ -3,13 +3,15 @@ package com.clientdata.schemas.model;
 import com.clientdata.schemas.enums.Gender;
 import com.clientdata.schemas.enums.MaritalStatus;
 import com.clientdata.schemas.enums.Nationality;
+import jakarta.validation.constraints.Email;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
-@Document(collection = "customers")
+@Document(collection = "Customers")
 public class Customer {
 
     private String customerId;
@@ -28,6 +30,7 @@ public class Customer {
 
     private String mobileNumber;
 
+    @Email(message = "Email should be valid")
     private String email;
 
     private String addressLine;
@@ -40,4 +43,5 @@ public class Customer {
 
     private String pinCode;
 
+    private List<String> policyIds;
 }

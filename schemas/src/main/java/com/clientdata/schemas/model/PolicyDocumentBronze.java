@@ -8,25 +8,31 @@ import com.clientdata.schemas.enums.Users;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 @Data
-@Document(collection = "PolicyDocument")
-public class PolicyDocument {
+@Document(collection = "PolicyDocumentBronze")
+public class PolicyDocumentBronze {
 
     private String policyId;
+
     private PolicyName policyName;
+
     private RegulatoryBody regulatoryBody;
+
     private Category category;
+
     private String version;
+
     private PolicyStatus status;
-    private LocalDateTime uploadDateTime;
+
+    private Date uploadDateTime;
+
     private Users uploadedBy;
 
-    private PolicyUpdateAudit auditTrail;
+    private List<PolicyUpdateAudit> auditTrail;
 
-
-
+    private String customerId;
 
 }

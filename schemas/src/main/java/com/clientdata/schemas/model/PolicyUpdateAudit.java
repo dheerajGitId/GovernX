@@ -4,7 +4,6 @@ import com.clientdata.schemas.enums.PolicyStatus;
 import com.clientdata.schemas.enums.Users;
 import lombok.Data;
 
-import java.security.Timestamp;
 import java.util.Date;
 
 
@@ -12,10 +11,16 @@ import java.util.Date;
 public class PolicyUpdateAudit {
 
     private String auditId;
+
     private String policyId;
+
     private Users updatedBy;
+
     private PolicyStatus oldStatus;
+
     private PolicyStatus newStatus;
+
     private String comments;
+
     private Date updatedDateTime;
 }

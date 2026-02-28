@@ -16,7 +16,6 @@ import static com.clientdata.schemas.enums.Message.SUCCESS;
 @AllArgsConstructor
 public class CustomerIngest {
     private final CustomerDetailsRepo customerDetailsRepo;
-    private final PolicyDocumentBronzeRepo policyDocumentRepo;
 
     public ResponseBody saveCustomerDetails(Customer customer) {
         String customerId = "CCC-" + UUID.randomUUID().toString().substring(0, 7).toUpperCase();

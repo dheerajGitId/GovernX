@@ -44,7 +44,6 @@ public class PolicyIngestService {
         }
         policyDocumentRepo.save(policyDocument);
 
-
     }
 
 

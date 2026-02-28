@@ -3,7 +3,6 @@ package com.clientdata.policyservice.service;
 import com.clientdata.schemas.model.Customer;
 import com.clientdata.schemas.model.ResponseBody;
 import com.clientdata.schemas.repo.CustomerDetailsRepo;
-import com.clientdata.schemas.repo.PolicyDocumentBronzeRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

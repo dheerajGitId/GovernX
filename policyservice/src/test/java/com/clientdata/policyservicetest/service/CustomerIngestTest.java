@@ -1,7 +1,6 @@
 package com.clientdata.policyservicetest.service;
 
 import com.clientdata.policyservice.service.CustomerIngest;
-import com.clientdata.schemas.enums.Message;
 import com.clientdata.schemas.model.Customer;
 import com.clientdata.schemas.model.ResponseBody;
 import com.clientdata.schemas.repo.CustomerDetailsRepo;
@@ -9,8 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
-
-import java.util.List;
 
 import static com.clientdata.schemas.enums.Message.CUSTOMER_ALREADY_EXISTS;
 import static com.clientdata.schemas.enums.Message.SUCCESS;

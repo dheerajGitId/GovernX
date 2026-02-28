@@ -33,6 +33,9 @@ dependencies {
     // Batch
     implementation 'org.springframework.boot:spring-boot-starter-batch'
 
+    //Xml
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -40,6 +43,7 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
 
     // Testing
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'

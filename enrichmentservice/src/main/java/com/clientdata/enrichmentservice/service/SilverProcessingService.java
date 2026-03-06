@@ -7,14 +7,27 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.clientdata.schemas.enums.PolicyStatus.DRAFT;
+import static com.clientdata.schemas.enums.PolicyStatus.SENT_FOR_SILVER_PROCESSING;
+
 @Service
 @AllArgsConstructor
 @Slf4j
 public class SilverProcessingService {
     private final PolicyDocumentBronzeRepo policyDocumentBronzeRepo;
 
-    private PolicyDocumentBronze findById(String id) {
-        return policyDocumentBronzeRepo.findById(id).
-    orElseThrow(() -> new EnrichmentServiceException("Policy document not found for id: " + id));
+    private List<PolicyDocumentBronze> silverProcessing() {
+        List<PolicyDocumentBronze> bronzeDocuments = policyDocumentBronzeRepo.findAll();
+        List<PolicyDocumentBronze> docsToProcess = new ArrayList<>();
+        for (PolicyDocumentBronze bronzeDocument : bronzeDocuments) {
+            if (bronzeDocument.getStatus().equals(DRAFT)) {
+                bronzeDocument.setStatus(SENT_FOR_SILVER_PROCESSING);
+            }
+        }
+        policyDocumentBronzeRepo.saveAll(docsToProcess);
+        return docsToProcess;
     }
 }

@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.clientdata'
 version = '0.0.1-SNAPSHOT'
-description = 'enrichmentservice'
+description = 'governanceservice'
 
 java {
     toolchain {

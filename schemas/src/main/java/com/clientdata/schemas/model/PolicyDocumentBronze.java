@@ -6,14 +6,17 @@ import com.clientdata.schemas.enums.PolicyStatus;
 import com.clientdata.schemas.enums.RegulatoryBody;
 import com.clientdata.schemas.enums.Users;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Document(collection = "PolicyDocumentBronze")
 public class PolicyDocumentBronze {
+
+    @Id
+    private String id;
 
     private String policyId;
 
@@ -31,7 +34,7 @@ public class PolicyDocumentBronze {
 
     private Users uploadedBy;
 
-    private List<PolicyUpdateAudit> auditTrail;
+    private String auditTrail_id;
 
     private String customerId;
 

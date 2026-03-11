@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PolicyDocumentBronzeRepo extends MongoRepository<PolicyDocumentBronze, String> {
-        boolean existsByPolicyId(String policyId);
-        PolicyDocumentBronze findByPolicyId(String policyId);
+    boolean existsByPolicyId(String policyId);
 }

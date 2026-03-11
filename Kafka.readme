@@ -1,0 +1,191 @@
+# Kafka Setup Guide (KRaft Mode) – From UID Creation to Topic Creation
+
+This document explains how to set up **Apache Kafka in KRaft mode (without Zookeeper)** and create a topic for use with Spring Boot microservices.
+
+---
+
+# 1. Generate Kafka Cluster ID (UID)
+
+Open a terminal and navigate to the Kafka installation directory.
+
+```bash
+cd C:\kafka
+```
+
+Generate a new Cluster ID:
+
+```bash
+.\bin\windows\kafka-storage.bat random-uuid
+```
+
+Example output:
+
+```
+m5HBz1CxR4GKy2LQppaTsA
+```
+
+Copy this value. It will be used in the next step.
+
+---
+
+# 2. Format Kafka Storage
+
+Kafka must format the metadata directory before starting the broker.
+
+Run the following command using the generated UID:
+
+```bash
+.\bin\windows\kafka-storage.bat format -t m5HBz1CxR4GKy2LQppaTsA -c .\config\server.properties
+```
+
+Expected output:
+
+```
+Formatting metadata directory C:/kafka/kraft-logs with metadata.version 4.0-IV3
+```
+
+This initializes Kafka storage.
+
+---
+
+# 3. Start Kafka Broker
+
+Start the Kafka server using the server configuration file.
+
+```bash
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+```
+
+Kafka will start and listen on:
+
+```
+localhost:9092
+```
+
+Keep this terminal running.
+
+---
+
+# 4. Create a Kafka Topic
+
+Open a **new terminal** and run:
+
+```bash
+.\bin\windows\kafka-topics.bat --create --topic silver-to-gold-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+```
+
+Expected output:
+
+```
+Created topic silver-to-gold-topic
+```
+
+---
+
+# 5. Verify Topic Creation
+
+List all topics:
+
+```bash
+.\bin\windows\kafka-topics.bat --list --bootstrap-server localhost:9092
+```
+
+Example output:
+
+```
+silver-to-gold-topic
+```
+
+---
+
+# 6. Describe Topic
+
+To view topic details:
+
+```bash
+.\bin\windows\kafka-topics.bat --describe --topic silver-to-gold-topic --bootstrap-server localhost:9092
+```
+
+Example output:
+
+```
+Topic: silver-to-gold-topic
+PartitionCount: 1
+ReplicationFactor: 1
+Leader: 1
+```
+
+---
+
+# 7. Test Kafka Producer (Optional)
+
+Run a console producer:
+
+```bash
+.\bin\windows\kafka-console-producer.bat --topic silver-to-gold-topic --bootstrap-server localhost:9092
+```
+
+Type a message:
+
+```
+hello
+```
+
+---
+
+# 8. Test Kafka Consumer
+
+Run a console consumer to read messages:
+
+```bash
+.\bin\windows\kafka-console-consumer.bat --topic silver-to-gold-topic --from-beginning --bootstrap-server localhost:9092
+```
+
+Example output:
+
+```
+hello
+```
+
+---
+
+# 9. Use Topic in Spring Boot
+
+In your Spring Boot service, send messages using:
+
+```java
+kafkaTemplate.send("silver-to-gold-topic", silverProcessedResponseBody);
+```
+
+Ensure the topic exists before running the application.
+
+---
+
+# Kafka Setup Workflow
+
+```
+1. Generate Cluster UID
+2. Format Kafka storage
+3. Start Kafka broker
+4. Create topic
+5. Verify topic
+6. Run Spring Boot services
+```
+
+---
+
+# Example Microservice Data Flow
+
+```
+Bronze Service
+     ↓
+Kafka Topic (bronze-topic)
+     ↓
+Silver Service
+     ↓
+Kafka Topic (silver-topic)
+     ↓
+Gold Service
+```
+
+This setup supports a typical **data enrichment pipeline architecture** using Kafka.

@@ -1,9 +1,9 @@
 spring:
   application:
-    name: enrichmentservice
+    name: governanceservice
 
 server:
-  port: 8002
+  port: 8003
 
 ---
 

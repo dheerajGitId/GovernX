@@ -18,7 +18,7 @@ public class KafkaListener {
             topics = "silver-to-gold-topic",
             groupId = "governanceservice-dev-group"
     )
-    public void consumeSilverProcessedMessage(SilverProcessedResponseBody message) {
+    private void consumeSilverProcessedMessage(SilverProcessedResponseBody message) {
 
         log.info("Received message from Kafka: {}", message);
 

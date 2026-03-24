@@ -18,7 +18,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static com.clientdata.schemas.enums.PolicyStatus.*;
+import static com.clientdata.schemas.enums.PolicyStatus.DRAFT;
+import static com.clientdata.schemas.enums.PolicyStatus.SENT_FOR_SILVER_PROCESSING;
+import static com.clientdata.schemas.enums.PolicyStatus.SENT_VIA_KAFKA_STREAM_TO_GOLD;
+import static com.clientdata.schemas.enums.PolicyStatus.SILVER_PROCESSING_COMPLETED;
 import static com.clientdata.schemas.enums.Users.GOVERN_X;
 
 @Service
@@ -62,6 +65,7 @@ public class SilverProcessingService {
             silverDocument.setRiskLevel(riskLevel);
 
             RegulatoryBody regulatoryBody = bronzeDocument.getRegulatoryBody();
+            silverDocument.setGlobalPolicy(regulatoryBody.isGlobalPolicy());
             processApplicableRegions(regulatoryBody, silverDocument);
             complexityCalculationService.calculateComplexityScore(silverDocument);
 
@@ -74,13 +78,17 @@ public class SilverProcessingService {
         }
         policyDocumentSilverRepo.saveAll(silverDocuments);
 
-//        if(silverDocuments.isEmpty()) {
-//            log.info("No documents to process for silver processing");
-//            return null;
-//        }
+        if (silverDocuments.isEmpty()) {
+            log.info("No documents to process for silver processing");
+            return null;
+        }
         SilverProcessedResponseBody responseBody = new SilverProcessedResponseBody();
         responseBody.setId(UUID.randomUUID().toString());
         responseBody.setSilverDocuments(silverDocuments);
+        for (PolicyDocumentSilver silverDocument : silverDocuments) {
+            log.info("Silver Document for policyId: {}, riskLevel: {}, complexityScore: {}", silverDocument.getBronze().getPolicyId(), silverDocument.getRiskLevel(), silverDocument.isGlobalPolicy());
+            updateAuditTrailForGoldProcessing(silverDocument);
+        }
         return kafkaPublisher.publishSilverProcessingDocumentToGold(responseBody);
     }
 
@@ -113,6 +121,40 @@ public class SilverProcessingService {
 
     private void processApplicableRegions(RegulatoryBody regulatoryBody, PolicyDocumentSilver silverDocument) {
 
+        if (regulatoryBody == null) {
+            return;
+        }
+
+        List<String> regions = new ArrayList<>();
+
+        switch (regulatoryBody) {
+
+            case GDPR:
+                regions.add("EU");
+                break;
+
+            case CCPA:
+                regions.add("USA");
+                regions.add("CALIFORNIA");
+                break;
+
+            case HIPAA, SOX, FISMA, GLBA, FERPA, COPPA:
+                regions.add("USA");
+                break;
+
+            case PCI_DSS, ISO_27001, NIST_CSF:
+                regions.add("GLOBAL");
+                break;
+
+            case PIPEDA:
+                regions.add("CANADA");
+                break;
+
+            default:
+                regions.add("OTHER");
+        }
+
+        silverDocument.setApplicableRegions(regions);
     }
 
     private void updateAuditTrailForSilverProcessing(PolicyDocumentSilver silverDocument) {

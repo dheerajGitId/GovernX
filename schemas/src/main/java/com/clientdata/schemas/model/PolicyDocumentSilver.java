@@ -18,11 +18,7 @@ public class PolicyDocumentSilver {
 
     private PolicyDocumentBronze bronze;
 
-    // ===== SILVER ENRICHMENT ATTRIBUTES =====
-
     private RiskLevel riskLevel;
-
-    private List<String> impactedDepartments;
 
     private boolean globalPolicy;
 

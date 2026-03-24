@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: dashboardservice
+
+server:
+  port: 8004
+
+---
+
+# dev
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  mongodb:
+    uri: mongodb+srv://d_mongo_kit:TempPwd@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystem?authSource=admin
+
+---
+
+# qa
+spring:
+  config:
+    activate:
+      on-profile: qa
+
+  mongodb:
+    uri: mongodb+srv://d_mongo_kit:${Mongo_Pwd}@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystemQA?authSource=admin
+
+---
+
+# prod
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  mongodb:
+    uri: mongodb+srv://d_mongo_kit:${Mongo_Pwd}@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystemProd?authSource=admin

@@ -9,4 +9,6 @@ public interface PolicyAuditRepo extends MongoRepository<PolicyAudit, String> {
     boolean existsByPolicyId(String id);
 
     PolicyAudit findByPolicyIdAndAuditId(String policyId, String auditId);
+
+    PolicyAudit findByAuditId(String auditId);
 }

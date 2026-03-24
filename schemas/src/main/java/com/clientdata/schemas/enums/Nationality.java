@@ -4,12 +4,13 @@ public enum Nationality {
     INDIAN,
     BRITISH,
     AMERICAN,
-    CANADIAN,
     AUSTRALIAN,
-    FRENCH,
-    GERMAN,
-    CHINESE,
-    JAPANESE,
-    MEXICAN,
-    OTHER
+    SOUTH_AFRICAN,
+    NEW_ZEALANDER,
+    PAKISTANI,
+    BANGLADESHI,
+    SRI_LANKAN,
+    OTHER,
+    AFGHAN,
+    CARIBBEAN
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PolicyAuditRepo extends MongoRepository<PolicyAudit, String> {
-    boolean existsByPolicyId(String id);
+    boolean existsByAuditId(String id);
 
     PolicyAudit findByPolicyIdAndAuditId(String policyId, String auditId);
 

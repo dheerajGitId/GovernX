@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PolicyDocumentRepo extends MongoRepository<PolicyDocument, String> {
+    PolicyDocument getPolicyDocumentByPolicyId(String policyId);
 }

@@ -2,43 +2,73 @@ package com.clientdata.policyservicetest.service;
 
 import com.clientdata.policyservice.exception.PolicyServiceException;
 import com.clientdata.policyservice.service.PolicyIngestService;
+import com.clientdata.schemas.model.Customer;
+import com.clientdata.schemas.model.PolicyAudit;
 import com.clientdata.schemas.model.PolicyDocumentBronze;
+import com.clientdata.schemas.model.PolicyUpdateAudit;
+import com.clientdata.schemas.repo.CustomerDetailsRepo;
+import com.clientdata.schemas.repo.PolicyAuditRepo;
 import com.clientdata.schemas.repo.PolicyDocumentBronzeRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 
+import static com.clientdata.policyservice.util.PolicyServiceConstants.POLICY_CREATED;
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PolicyServiceIngestTest {
     @Mock
     PolicyDocumentBronzeRepo repo;
 
+    @Mock
+    PolicyAuditRepo repo2;
+
+    @Mock
+    CustomerDetailsRepo repo3;
+
     PolicyIngestService service;
 
     @BeforeEach
     public void setUp() {
         repo = mock(PolicyDocumentBronzeRepo.class);
-        service = new PolicyIngestService(repo);
+        repo2 = mock(PolicyAuditRepo.class);
+        repo3 = mock(CustomerDetailsRepo.class);
+        service = new PolicyIngestService(repo, repo2, repo3);
     }
 
     @Test
-    void PolicyDocumentIngestIdDoesNotExist(){
+    void testPolicyDocumentIngestIdDoesNotExist() {
         PolicyDocumentBronze document = new PolicyDocumentBronze();
+        String policyId = "PPP-C37B298";
+        String customerId = "CCC-D808158";
 
+        Customer customer1 = new Customer();
+        customer1.setName("Gary");
         when(repo.existsByPolicyId(anyString())).thenReturn(false);
+        when(repo2.existsByAuditId(anyString())).thenReturn(false);
+        when(repo3.existsByCustomerId(customerId)).thenReturn(true);
+        when(repo3.findByCustomerId(customerId)).thenReturn(customer1);
+
+        document.setCustomerId(customerId);
+
+        customer1.setPolicyIds(singletonList(policyId));
 
         service.PolicyDocumentIngest(document);
         verify(repo, times(1)).save(document);
-
+        verify(repo3, times(1)).save(customer1);
     }
 
     @Test
-    void PolicyDocumentIngestIdExist(){
+    void testPolicyDocumentIngestIdExist() {
         PolicyDocumentBronze document = new PolicyDocumentBronze();
 
         when(repo.existsByPolicyId(anyString())).thenReturn(true);
@@ -47,5 +77,24 @@ public class PolicyServiceIngestTest {
 
     }
 
+    @Test
+    void testAuditIdForPolicyDocumentExists() {
+        when(repo2.existsByAuditId(anyString())).thenReturn(true);
+        assertThrows(PolicyServiceException.class, () -> service.PolicyDocumentIngest(new PolicyDocumentBronze()));
+    }
+
+    @Test
+    void testPolicyIdAndAuditIdForPolicyDocumentExists() {
+        when(repo.existsByPolicyId(anyString())).thenReturn(true);
+        when(repo2.existsByAuditId(anyString())).thenReturn(true);
+        assertThrows(PolicyServiceException.class, () -> service.PolicyDocumentIngest(new PolicyDocumentBronze()));
+    }
+
+    @Test
+    void testWhenCustomerIsNull() {
+        when(repo3.findByCustomerId(anyString())).thenReturn(null);
+        assertThrows(PolicyServiceException.class, () -> service.PolicyDocumentIngest(new PolicyDocumentBronze()));
+
+    }
 
 }

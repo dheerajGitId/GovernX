@@ -55,7 +55,7 @@ public class PolicyIngestService {
         log.info("policy document ingested with id: {}", policyDocument);
 
         boolean policyExists = policyDocumentRepo.existsByPolicyId(id);
-        boolean auditExists = policyAuditRepo.existsByPolicyId(auditId);
+        boolean auditExists = policyAuditRepo.existsByAuditId(auditId);
 
         if (policyExists) {
             log.error("Policy already exists with policyId: {}", id);
@@ -75,6 +75,9 @@ public class PolicyIngestService {
         policyAuditRepo.save(policyAudit);
 
         Customer customer = customerDetailsRepo.findByCustomerId(policyDocument.getCustomerId());
+        if(customer == null) {
+            throw new PolicyServiceException("Customer not found with given CustomerId: " + policyDocument.getCustomerId());
+        }
         customer.setPolicyIds(singletonList(id));
         customerDetailsRepo.save(customer);
     }

@@ -66,9 +66,19 @@ jacocoTestReport {
     }
 }
 
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.80  // 80% coverage
+            }
+        }
+    }
+}
+
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport
+    finalizedBy jacocoTestReport, jacocoTestCoverageVerification
 }
 
 tasks.named('test') {

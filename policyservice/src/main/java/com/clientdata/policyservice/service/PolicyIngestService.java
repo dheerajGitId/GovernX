@@ -75,7 +75,7 @@ public class PolicyIngestService {
         policyAuditRepo.save(policyAudit);
 
         Customer customer = customerDetailsRepo.findByCustomerId(policyDocument.getCustomerId());
-        if(customer == null) {
+        if (customer == null) {
             throw new PolicyServiceException("Customer not found with given CustomerId: " + policyDocument.getCustomerId());
         }
         customer.setPolicyIds(singletonList(id));

@@ -37,6 +37,14 @@ dependencies {
     //Xml
     implementation 'com.fasterxml.jackson.core:jackson-databind'
 
+    //Caching
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'com.github.ben-manes.caffeine:caffeine'
+
+    //Caching Stats
+    implementation 'io.micrometer:micrometer-core'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

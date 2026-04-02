@@ -4,12 +4,18 @@ import com.clientdata.enrichmentservice.exception.EnrichmentServiceException;
 import com.clientdata.enrichmentservice.publisher.KafkaPublisher;
 import com.clientdata.schemas.enums.RegulatoryBody;
 import com.clientdata.schemas.enums.RiskLevel;
-import com.clientdata.schemas.model.*;
+import com.clientdata.schemas.model.PolicyAudit;
+import com.clientdata.schemas.model.PolicyDocumentBronze;
+import com.clientdata.schemas.model.PolicyDocumentSilver;
+import com.clientdata.schemas.model.PolicyUpdateAudit;
+import com.clientdata.schemas.model.SilverProcessedResponseBody;
+import com.clientdata.schemas.model.KafkaResponseBody;
 import com.clientdata.schemas.repo.PolicyAuditRepo;
 import com.clientdata.schemas.repo.PolicyDocumentBronzeRepo;
 import com.clientdata.schemas.repo.PolicyDocumentSilverRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +58,7 @@ public class SilverProcessingService {
         return docsToProcess;
     }
 
-    @Scheduled(fixedDelay = 24 * 60 * 60 * 1000) // Run once every 24 hours
+    @Scheduled(fixedDelay = 60 * 60 * 1000) // Run once every 1 hour
     public KafkaResponseBody silverProcessing() {
         List<PolicyDocumentBronze> docsToProcess = bronzeDocumentProcessing();
         log.info("Documents sent for silver processing: {}", docsToProcess.size());

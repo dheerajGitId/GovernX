@@ -1,11 +1,9 @@
 package com.clientdata.policyservice.service;
 
 import com.clientdata.policyservice.exception.PolicyServiceException;
-import com.clientdata.schemas.model.Customer;
 import com.clientdata.schemas.model.PolicyAudit;
 import com.clientdata.schemas.model.PolicyDocumentBronze;
 import com.clientdata.schemas.model.PolicyUpdateAudit;
-import com.clientdata.schemas.repo.CustomerDetailsRepo;
 import com.clientdata.schemas.repo.PolicyAuditRepo;
 import com.clientdata.schemas.repo.PolicyDocumentBronzeRepo;
 import lombok.AllArgsConstructor;
@@ -25,8 +23,6 @@ import static java.util.Collections.singletonList;
 public class PolicyIngestService {
     private final PolicyDocumentBronzeRepo policyDocumentRepo;
     private final PolicyAuditRepo policyAuditRepo;
-    private final CustomerDetailsRepo customerDetailsRepo;
-
 
     public void PolicyDocumentIngest(PolicyDocumentBronze policyDocument) {
         String id = "PPP-" + UUID.randomUUID().toString().substring(0, 7).toUpperCase();
@@ -74,12 +70,6 @@ public class PolicyIngestService {
         policyDocumentRepo.save(policyDocument);
         policyAuditRepo.save(policyAudit);
 
-        Customer customer = customerDetailsRepo.findByCustomerId(policyDocument.getCustomerId());
-        if (customer == null) {
-            throw new PolicyServiceException("Customer not found with given CustomerId: " + policyDocument.getCustomerId());
-        }
-        customer.setPolicyIds(singletonList(id));
-        customerDetailsRepo.save(customer);
     }
 
 

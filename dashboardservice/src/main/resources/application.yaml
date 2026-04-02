@@ -15,6 +15,14 @@ spring:
 
   mongodb:
     uri: mongodb+srv://d_mongo_kit:TempPwd@policymanagementsystem.oxemfpl.mongodb.net/PolicyManagementSystem?authSource=admin
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+      metrics:
+        enabled: true
+
 
 ---
 
